@@ -17,6 +17,8 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
                 nameLabel.text = name
             }
             
+            appsCollectionView.reloadData()
+            
         }
     }
     
