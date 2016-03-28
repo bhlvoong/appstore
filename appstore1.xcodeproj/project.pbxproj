@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70F3A661CA8631800AC2E55 /* AppDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70F3A651CA8631800AC2E55 /* AppDetailController.swift */; };
 		C76B41D81C9A99B60049214B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B41D71C9A99B60049214B /* AppDelegate.swift */; };
 		C76B41DA1C9A99B60049214B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76B41D91C9A99B60049214B /* ViewController.swift */; };
 		C76B41DD1C9A99B60049214B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C76B41DB1C9A99B60049214B /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C70F3A651CA8631800AC2E55 /* AppDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDetailController.swift; sourceTree = "<group>"; };
 		C76B41D41C9A99B60049214B /* appstore1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appstore1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76B41D71C9A99B60049214B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C76B41D91C9A99B60049214B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				C76B41E31C9A99B60049214B /* Info.plist */,
 				C76B41E91C9A9BC70049214B /* CategoryCell.swift */,
 				C76B42C11C9FE9250049214B /* Models.swift */,
+				C70F3A651CA8631800AC2E55 /* AppDetailController.swift */,
 			);
 			path = appstore1;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				C76B41DA1C9A99B60049214B /* ViewController.swift in Sources */,
 				C76B41D81C9A99B60049214B /* AppDelegate.swift in Sources */,
 				C76B41EA1C9A9BC70049214B /* CategoryCell.swift in Sources */,
+				C70F3A661CA8631800AC2E55 /* AppDetailController.swift in Sources */,
 				C76B42C21C9FE9250049214B /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

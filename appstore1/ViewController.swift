@@ -36,11 +36,19 @@ class FeaturedAppsController: UICollectionViewController, UICollectionViewDelega
         collectionView?.registerClass(Header.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
     }
     
+    func showAppDetailForApp(app: App) {
+        let layout = UICollectionViewFlowLayout()
+        let appDetailController = AppDetailController(collectionViewLayout: layout)
+        appDetailController.app = app
+        navigationController?.pushViewController(appDetailController, animated: true)
+    }
+    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if indexPath.item == 2 {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(largeCellId, forIndexPath: indexPath) as! LargeCategoryCell
             cell.appCategory = appCategories?[indexPath.item]
+            cell.featuredAppsController = self
             
             return cell
         }
@@ -48,6 +56,7 @@ class FeaturedAppsController: UICollectionViewController, UICollectionViewDelega
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! CategoryCell
         
         cell.appCategory = appCategories?[indexPath.item]
+        cell.featuredAppsController = self
         
         return cell
     }
