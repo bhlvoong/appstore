@@ -45,15 +45,13 @@ class FeaturedAppsController: UICollectionViewController, UICollectionViewDelega
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        if indexPath.item == 2 {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(largeCellId, forIndexPath: indexPath) as! LargeCategoryCell
-            cell.appCategory = appCategories?[indexPath.item]
-            cell.featuredAppsController = self
-            
-            return cell
-        }
+        let cell: CategoryCell
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! CategoryCell
+        if indexPath.item == 2 {
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(largeCellId, forIndexPath: indexPath) as! LargeCategoryCell
+        } else {
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! CategoryCell
+        }
         
         cell.appCategory = appCategories?[indexPath.item]
         cell.featuredAppsController = self
