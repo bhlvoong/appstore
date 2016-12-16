@@ -13,19 +13,19 @@ class FeaturedApps: NSObject {
     var bannerCategory: AppCategory?
     var appCategories: [AppCategory]?
     
-    override func setValue(value: AnyObject?, forKey key: String) {
+    override func setValue(_ value: Any?, forKey key: String) {
         if key == "categories" {
             appCategories = [AppCategory]()
             
             for dict in value as! [[String: AnyObject]] {
                 let appCategory = AppCategory()
-                appCategory.setValuesForKeysWithDictionary(dict)
+                appCategory.setValuesForKeys(dict)
                 appCategories?.append(appCategory)
             }
             
         } else if key == "bannerCategory" {
             bannerCategory = AppCategory()
-            bannerCategory?.setValuesForKeysWithDictionary(value as! [String: AnyObject])
+            bannerCategory?.setValuesForKeys(value as! [String: AnyObject])
         } else {
             super.setValue(value, forKey: key)
         }
@@ -39,13 +39,13 @@ class AppCategory: NSObject {
     var apps: [App]?
     var type: String?
     
-    override func setValue(value: AnyObject?, forKey key: String) {
+    override func setValue(_ value: Any?, forKey key: String) {
         if key == "apps" {
             
             apps = [App]()
             for dict in value as! [[String: AnyObject]] {
                 let app = App()
-                app.setValuesForKeysWithDictionary(dict)
+                app.setValuesForKeys(dict)
                 apps?.append(app)
             }
             
@@ -54,11 +54,11 @@ class AppCategory: NSObject {
         }
     }
     
-    static func fetchFeaturedApps(completionHandler: (FeaturedApps) -> ()) {
+    static func fetchFeaturedApps(_ completionHandler: @escaping (FeaturedApps) -> ()) {
         
         let urlString = "http://www.statsallday.com/appstore/featured"
         
-        NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: urlString)!) { (data, response, error) -> Void in
+        URLSession.shared.dataTask(with: URL(string: urlString)!, completionHandler: { (data, response, error) -> Void in
             
             if error != nil {
                 print(error)
@@ -67,12 +67,12 @@ class AppCategory: NSObject {
             
             do {
                 
-                let json = try(NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers))
+                let json = try(JSONSerialization.jsonObject(with: data!, options: .mutableContainers))
                 
                 let featuredApps = FeaturedApps()
-                featuredApps.setValuesForKeysWithDictionary(json as! [String: AnyObject])
+                featuredApps.setValuesForKeys(json as! [String: AnyObject])
                 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     completionHandler(featuredApps)
                 })
                 
@@ -80,7 +80,7 @@ class AppCategory: NSObject {
                 print(err)
             }
             
-        }.resume()
+        }) .resume()
         
     }
     
@@ -96,7 +96,7 @@ class AppCategory: NSObject {
         frozenApp.name = "Disney Build It: Frozen"
         frozenApp.imageName = "frozen"
         frozenApp.category = "Entertainment"
-        frozenApp.price = NSNumber(float: 3.99)
+        frozenApp.price = NSNumber(value: 3.99 as Float)
         apps.append(frozenApp)
         
         bestNewAppsCategory.apps = apps
@@ -111,7 +111,7 @@ class AppCategory: NSObject {
         telepaintApp.name = "Telepaint"
         telepaintApp.category = "Games"
         telepaintApp.imageName = "telepaint"
-        telepaintApp.price = NSNumber(float: 2.99)
+        telepaintApp.price = NSNumber(value: 2.99 as Float)
         
         bestNewGamesApps.append(telepaintApp)
         
@@ -130,5 +130,17 @@ class App: NSObject {
     var category: String?
     var imageName: String?
     var price: NSNumber?
+    
+    var screenshots: [String]?
+    var desc: String?
+    var appInformation: AnyObject?
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        if key == "description" {
+            self.desc = value as? String
+        } else {
+            super.setValue(value, forKey: key)
+        }
+    }
     
 }

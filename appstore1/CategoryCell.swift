@@ -24,7 +24,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         }
     }
     
-    private let cellId = "appCellId"
+    fileprivate let cellId = "appCellId"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,17 +38,17 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Best New Apps"
-        label.font = UIFont.systemFontOfSize(16)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let appsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        collectionView.backgroundColor = UIColor.clearColor()
+        collectionView.backgroundColor = UIColor.clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -62,7 +62,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     }()
     
     func setupViews() {
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         
         addSubview(appsCollectionView)
         addSubview(dividerLineView)
@@ -71,40 +71,40 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         appsCollectionView.dataSource = self
         appsCollectionView.delegate = self
         
-        appsCollectionView.registerClass(AppCell.self, forCellWithReuseIdentifier: cellId)
+        appsCollectionView.register(AppCell.self, forCellWithReuseIdentifier: cellId)
         
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
         
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": dividerLineView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": dividerLineView]))
         
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
         
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[nameLabel(30)][v0][v1(0.5)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView, "v1": dividerLineView, "nameLabel": nameLabel]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[nameLabel(30)][v0][v1(0.5)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView, "v1": dividerLineView, "nameLabel": nameLabel]))
         
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let count = appCategory?.apps?.count {
             return count
         }
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! AppCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppCell
         cell.app = appCategory?.apps?[indexPath.item]
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(100, frame.height - 32)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 100, height: frame.height - 32)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsetsMake(0, 14, 0, 14)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let app = appCategory?.apps?[indexPath.item] {
             featuredAppsController?.showAppDetailForApp(app)
         }
@@ -120,17 +120,17 @@ class AppCell: UICollectionViewCell {
             if let name = app?.name {
                 nameLabel.text = name
                 
-                let rect = NSString(string: name).boundingRectWithSize(CGSizeMake(frame.width, 1000), options: NSStringDrawingOptions.UsesFontLeading.union(NSStringDrawingOptions.UsesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14)], context: nil)
+                let rect = NSString(string: name).boundingRect(with: CGSize(width: frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
                 
                 if rect.height > 20 {
-                    categoryLabel.frame = CGRectMake(0, frame.width + 38, frame.width, 20)
-                    priceLabel.frame = CGRectMake(0, frame.width + 56, frame.width, 20)
+                    categoryLabel.frame = CGRect(x: 0, y: frame.width + 38, width: frame.width, height: 20)
+                    priceLabel.frame = CGRect(x: 0, y: frame.width + 56, width: frame.width, height: 20)
                 } else {
-                    categoryLabel.frame = CGRectMake(0, frame.width + 22, frame.width, 20)
-                    priceLabel.frame = CGRectMake(0, frame.width + 40, frame.width, 20)
+                    categoryLabel.frame = CGRect(x: 0, y: frame.width + 22, width: frame.width, height: 20)
+                    priceLabel.frame = CGRect(x: 0, y: frame.width + 40, width: frame.width, height: 20)
                 }
                 
-                nameLabel.frame = CGRectMake(0, frame.width + 5, frame.width, 40)
+                nameLabel.frame = CGRect(x: 0, y: frame.width + 5, width: frame.width, height: 40)
                 nameLabel.sizeToFit()
                 
             }
@@ -161,7 +161,7 @@ class AppCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .ScaleAspectFill
+        iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 16
         iv.layer.masksToBounds = true
         return iv
@@ -170,7 +170,7 @@ class AppCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Disney Build It: Frozen"
-        label.font = UIFont.systemFontOfSize(14)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 2
         return label
     }()
@@ -178,16 +178,16 @@ class AppCell: UICollectionViewCell {
     let categoryLabel: UILabel = {
         let label = UILabel()
         label.text = "Entertainment"
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.darkGrayColor()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.darkGray
         return label
     }()
 
     let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "$3.99"
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.darkGrayColor()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.darkGray
         return label
     }()
     
@@ -197,10 +197,10 @@ class AppCell: UICollectionViewCell {
         addSubview(categoryLabel)
         addSubview(priceLabel)
         
-        imageView.frame = CGRectMake(0, 0, frame.width, frame.width)
-        nameLabel.frame = CGRectMake(0, frame.width + 2, frame.width, 40)
-        categoryLabel.frame = CGRectMake(0, frame.width + 38, frame.width, 20)
-        priceLabel.frame = CGRectMake(0, frame.width + 56, frame.width, 20)
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width)
+        nameLabel.frame = CGRect(x: 0, y: frame.width + 2, width: frame.width, height: 40)
+        categoryLabel.frame = CGRect(x: 0, y: frame.width + 38, width: frame.width, height: 20)
+        priceLabel.frame = CGRect(x: 0, y: frame.width + 56, width: frame.width, height: 20)
     }
     
 }
