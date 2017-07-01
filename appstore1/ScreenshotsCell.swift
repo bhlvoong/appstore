@@ -51,7 +51,7 @@ class ScreenshotsCell: BaseCell, UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = app?.screenshots?.count {
+        if let count = app?.Screenshots?.count {
             return count
         }
         return 0
@@ -60,7 +60,7 @@ class ScreenshotsCell: BaseCell, UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ScreenshotImageCell
         
-        if let imageName = app?.screenshots?[indexPath.item] {
+        if let imageName = app?.Screenshots?[indexPath.item] {
             cell.imageView.image = UIImage(named: imageName)
         }
         

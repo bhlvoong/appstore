@@ -13,26 +13,26 @@ class AppDetailController: UICollectionViewController, UICollectionViewDelegateF
     var app: App? {
         didSet {
             
-            if app?.screenshots != nil {
+            if app?.Screenshots != nil {
                 return
             }
             
-            if let id = app?.id {
+            if let id = app?.Id {
                 let urlString = "http://www.statsallday.com/appstore/appdetail?id=\(id)"
                 
                 URLSession.shared.dataTask(with: URL(string: urlString)!, completionHandler: { (data, response, error) -> Void in
                     
-                    if error != nil {
+                    guard let data = data else { return }
+                    
+                    if let error = error {
                         print(error)
                         return
                     }
                     
                     do {
                         
-                        let json = try(JSONSerialization.jsonObject(with: data!, options: .mutableContainers))
-                        
-                        let appDetail = App()
-                        appDetail.setValuesForKeys(json as! [String: AnyObject])
+                        let decoder = JSONDecoder()
+                        let appDetail = try decoder.decode(App.self, from: data)
                         
                         self.app = appDetail
                         
@@ -47,8 +47,6 @@ class AppDetailController: UICollectionViewController, UICollectionViewDelegateF
                     
                 }).resume()
             }
-            
-            
         }
     }
     
@@ -88,16 +86,16 @@ class AppDetailController: UICollectionViewController, UICollectionViewDelegateF
     }
     
     fileprivate func descriptionAttributedText() -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: "Description\n", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+        let attributedText = NSMutableAttributedString(string: "Description\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)])
         
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 10
         
         let range = NSMakeRange(0, attributedText.string.characters.count)
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: style, range: range)
+        attributedText.addAttribute(NSAttributedStringKey.paragraphStyle, value: style, range: range)
         
-        if let desc = app?.desc {
-            attributedText.append(NSAttributedString(string: desc, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 11), NSForegroundColorAttributeName: UIColor.darkGray]))
+        if let desc = app?.description {
+            attributedText.append(NSAttributedString(string: desc, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11), NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
         }
         
         return attributedText
@@ -164,13 +162,13 @@ class AppDetailHeader: BaseCell {
     
     var app: App? {
         didSet {
-            if let imageName = app?.imageName {
+            if let imageName = app?.ImageName {
                 imageView.image = UIImage(named: imageName)
             }
             
-            nameLabel.text = app?.name
+            nameLabel.text = app?.Name
             
-            if let price = app?.price?.stringValue {
+            if let price = app?.Price {
                 buyButton.setTitle("$\(price)", for: UIControlState())
             }
         }
